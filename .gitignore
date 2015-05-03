@@ -1,0 +1,8 @@
+*.zip
+*.prefs
+*.pyc
+.project
+.pydevproject
+.settings
+.metadata
+
