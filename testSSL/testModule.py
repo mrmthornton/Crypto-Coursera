@@ -3,7 +3,7 @@ Created on Apr 30, 2015
 
 @author: mike
 '''
-
+ 
 MyConstantA = 4
 MyConstantB = 5
 
