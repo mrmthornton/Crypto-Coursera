@@ -1,10 +1,9 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Jan 24, 2014
 
 @author: mike
 '''
-
-import sys 
 
 
 MSGS = (
@@ -22,13 +21,46 @@ MSGS = (
 
 goalMsg = "32510ba9babebbbefd001547a810e67149caee11d945cd7fc81a05e9f85aac650e9052ba6a8cd8257bf14d13e6f0a803b54fde9e77472dbff89d71b57bddef121336cb85ccb8f3315f4b52e301d16e9f52f904"
 
-m = ""
+def strxor(a, b):     # xor two strings of different lengths
+    '''
+    Returns a string, the bitwise xor of the input strings, and of length equal
+    to the shorter input string.
+
+    @param a,b: strings of arbitrary length
+    '''
+    return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a, b)])
+
+def encrypt(k, m):
+    '''
+    A wrapper for debug. Eases examination of individual results.
+    @param k, m: The key, k, and the message, m.
+    '''
+    c = strxor(k, m)
+    #print c.encode('hex') # this is helpful for debug
+    return c
+
+def random(size=16):
+    '''
+    @param size: the number of bits returned
+    '''
+    return open("/dev/urandom").read(size)
+
+msg = ""
 
 if __name__ == '__main__':
-    for msg in MSGS:
-        m = m ^ msg
-        print (hex(m))
 
+    # encrypt the message using the generated key
+    print len(MSGS)
+    msgXor = [encrypt(MSGS[i-1], MSGS[i]) for i in range(1,len(MSGS))]
+    for msg in msgXor:
+        print msg.encode('hex')
+        msg.encode('hex')
+    print "[non ascii]"
 
-
-    
+    n = 0x40
+    assert (str('\0') == chr(0))
+    key = str("ab")
+    decrypt = [encrypt(key, msg) for msg in MSGS]
+    for msg in decrypt:
+        print msg
+        

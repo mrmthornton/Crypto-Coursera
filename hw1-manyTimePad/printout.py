@@ -15,11 +15,11 @@ def strxor(a, b):
     else:
         return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a, b[:len(a)])])
 
-def random(size=16): 
+def random(size=16):
     return open("/dev/urandom").read(size)
 
-def encrypt(key, msg):
-    c = strxor(key, msg)
+def encrypt(k, m):
+    c = strxor(k, m)
     print c.encode('hex')
     return c
 
