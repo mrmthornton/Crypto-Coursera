@@ -36,6 +36,8 @@ def encrypt(k, m):
     @param k, m: The key, k, and the message, m.
     '''
     c = strxor(k, m)
+    #print k.encode('hex')
+    #print m.encode('hex')
     #print c.encode('hex') # this is helpful for debug
     return c
 
@@ -47,20 +49,45 @@ def random(size=16):
 
 msg = ""
 
+
 if __name__ == '__main__':
 
     # encrypt the message using the generated key
     print len(MSGS)
     msgXor = [encrypt(MSGS[i-1], MSGS[i]) for i in range(1,len(MSGS))]
     for msg in msgXor:
-        print msg.encode('hex')
-        msg.encode('hex')
+        for character in msg:
+            print character.encode('hex'),
+        print 
     print "[non ascii]"
+    
+    #key ='\0\0\0\0\0' + chr(0xfb) + '\0\0\0\0\0\0\0\0\0\0\0\0\0\0'
+    key ='\0\0\0\0\0\0'
+    
+    plainTexts = [encrypt(key, MSGS[i]) for i in range(len(MSGS))]
+    for msg in plainTexts:
+        print msg
+        #print msg.encode('hex')
+'''
+    #key = chr(0x00) + chr(0x00)
+    assert str('\0') == chr(0)
+    #key = str("\0\0\0\0")
+    key ='\0\0\0\0\0\0\0\0'
+    lkey =  len(key)
+    
+    #decrypt = [encrypt(key, msg) for msg in MSGS]
+    #for msg in decrypt:
+    #    print msg
+    #    print msg.decode('hex')
+    
 
-    n = 0x40
-    assert (str('\0') == chr(0))
-    key = str("ab")
-    decrypt = [encrypt(key, msg) for msg in MSGS]
+    for msg in msgXor:
+    #msg = msgXor[8]
+    for i in range(0, len(msg) - lkey):
+        print encrypt(key, msg)
+        key = " " + key
+    decrypt = [encrypt(key, msg) for msg in msgXor]
     for msg in decrypt:
         print msg
+''' 
         
